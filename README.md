@@ -1,6 +1,7 @@
-# Untitled
+# observable playground
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.4.
+Meaningless "personal" playground for playing around with observables ... only public because of github having no option to hide things
+
 
 ## Development server
 
