@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public title = 'app';
+  public title = 'observable playground app';
   public isVisible = false;
 
   showComponents() {

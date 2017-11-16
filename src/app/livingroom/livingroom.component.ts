@@ -1,27 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-import {CatinfoService} from "../catinfo.service";
-import {CatInfos} from "../catinfo.model";
+import { Component, OnInit } from '@angular/core';
+import { CatinfoService } from "../catinfo.service";
+import { CatInfos } from "../catinfo.model";
 
 @Component({
-  selector: 'app-livingroom',
-  templateUrl: './livingroom.component.html',
-  styleUrls: ['./livingroom.component.css']
+    selector: 'app-livingroom',
+    templateUrl: './livingroom.component.html',
+    styleUrls: ['./livingroom.component.css']
 })
 export class LivingroomComponent implements OnInit {
 
-  public allCats: CatInfos;
+    public allCats: CatInfos;
 
-  constructor(private catInfoService: CatinfoService) {
-  }
+    private counter = 0;
 
-  ngOnInit() {
-    this.catInfoService.getCatInfos().subscribe((kitties) => {
-      this.allCats = kitties;
-    });
-  }
+    constructor(private catInfoService: CatinfoService) {
+    }
 
-  public addCat(): void {
-    this.catInfoService.addCat({name: "Garfield", sleeping: true});
-  }
+    ngOnInit() {
+        this.catInfoService.getCatInfos().subscribe((kitties) => {
+            this.allCats = kitties;
+        });
+    }
+
+    public addCat(): void {
+        this.counter++;
+        this.catInfoService.addCat({name: `Garfield Nr ${this.counter}`, sleeping: true});
+    }
 
 }

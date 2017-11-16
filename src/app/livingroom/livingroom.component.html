@@ -1,10 +1,12 @@
 <div class="living-room">
-  <p>
-  <h4>List of cats</h4>
-  <ul>
-    <li *ngFor="let cat of allCats">{{cat.name}}</li>
-  </ul>
-  Total Number: {{allCats?.length}}
+    <h6>Living room component</h6>
+    <button (click)="addCat()">Add Cat</button>
+    <p>
+    <h4>List of cats</h4>
+    <ul>
+        <li *ngFor="let cat of allCats">{{cat.name}}</li>
+    </ul>
+    Total Number: {{allCats?.length}}
 
-  <button (click)="addCat()">Add Cat</button>
+
 </div>
