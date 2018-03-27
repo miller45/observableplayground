@@ -3,11 +3,11 @@ import {CatinfoService} from "../catinfo.service";
 import {CatInfos} from "../catinfo.model";
 
 @Component({
-  selector: 'app-bathroom',
-  templateUrl: './bathroom.component.html',
-  styleUrls: ['./bathroom.component.css']
+  selector: 'app-house',
+  templateUrl: './house.component.html',
+  styleUrls: ['./house.component.css']
 })
-export class BathroomComponent implements OnInit {
+export class HouseComponent implements OnInit {
 
   public allCats: CatInfos;
 
