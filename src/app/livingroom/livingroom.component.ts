@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CatinfoService } from "../catinfo.service";
-import { CatInfos } from "../catinfo.model";
+import { CatinfoService } from "../services";
+import { CatInfos } from "../models";
 
 @Component({
     selector: 'app-livingroom',

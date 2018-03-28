@@ -5,10 +5,11 @@ import {AppComponent} from './app.component';
 
 import {LivingroomComponent} from './livingroom/livingroom.component';
 
-import {CatinfoService} from "./catinfo.service";
+
 import {CommonModule} from "@angular/common";
 import {HttpModule} from "@angular/http";
-import {HouseComponent} from "./bathroom/house.component";
+import {HouseComponent} from "./house/house.component";
+import {DoginfoService, CatinfoService} from "./services";
 
 @NgModule({
     declarations: [
@@ -21,7 +22,7 @@ import {HouseComponent} from "./bathroom/house.component";
         BrowserModule,
         HttpModule
     ],
-    providers: [CatinfoService],
+    providers: [CatinfoService, DoginfoService],
     bootstrap: [AppComponent]
 })
 export class AppModule {
