@@ -10,6 +10,8 @@ import {CommonModule} from "@angular/common";
 import {HttpModule} from "@angular/http";
 import {HouseComponent} from "./house/house.component";
 import {DoginfoService, CatinfoService} from "./services";
+import {ToastModule, ToastOptions, ToastsManager} from "ng2-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
     declarations: [
@@ -18,7 +20,9 @@ import {DoginfoService, CatinfoService} from "./services";
         HouseComponent
     ],
     imports: [
+        ToastModule.forRoot(),
         CommonModule,
+        BrowserAnimationsModule,
         BrowserModule,
         HttpModule
     ],

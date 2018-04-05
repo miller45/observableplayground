@@ -7,10 +7,10 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import {ReplaySubject} from "rxjs/ReplaySubject";
-import {DoginfoService} from "./doginfo.service";
 
-
-//const Names = ["Miez", "Heinz", "Kitty"];
+import * as _ from 'lodash';
+import {NamesGenerator} from "./names-generator.service";
+import {ToastsManager} from "ng2-toastr";
 
 let rnd = function (max: number) {
     return Math.trunc(Math.random() * max);
@@ -19,11 +19,14 @@ let rnd = function (max: number) {
 @Injectable()
 export class CatinfoService {
 
-    private catInfos$: ReplaySubject<CatInfos>;
+    private catInfoSubject: ReplaySubject<CatInfos>;
     private allCats: CatInfos;
+    private ngen:NamesGenerator;
 
-    constructor(private http: Http, private dogInfoService: DoginfoService) {
-        this.catInfos$ = Observable.create(observer => {
+    constructor(private http: Http,private toastr: ToastsManager) {
+        this.ngen=new NamesGenerator();
+        this.catInfoSubject = Observable.create(observer => {
+            this.toastr.info("WebService", "Requested data from the webservice");
             this.http.get('http://localhost:4001/api/catinfo').map((response) => {
                 return CatinfoService.processData(response["_body"]);
             }).subscribe((data: any) => {
@@ -34,20 +37,47 @@ export class CatinfoService {
                 console.log(error);
             });
         }).shareReplay(1);
-        this.dogInfoService.dogEvents.subscribe((e)=> {
-            console.log(e);
-        });
     }
 
     public getCatInfos(): Observable<CatInfos> {
-        return this.catInfos$;
+        return this.catInfoSubject;
     }
 
     public addCat(cat: CatInfo) {
-        console.log("trying to add cat");
-        this.catInfos$.subscribe(() => {
-            console.log("added cat");
+        this.catInfoSubject.subscribe(() => {
             this.allCats.push(cat);
+        });
+    }
+
+    public addRandomCats(amount:number) {
+        this.catInfoSubject.subscribe(() => {
+            while (amount > 0) {
+                let newCat = new CatInfo();
+                newCat.name = this.ngen.simple();
+                newCat.sleeping = rnd(1) === 1;
+                this.allCats.push(newCat);
+                amount--;
+            }
+
+        });
+    }
+
+    public removeCat(cat: CatInfo) {
+        this.catInfoSubject.subscribe(() => {
+            let acatidx = _.findIndex(this.allCats, {'name': cat.name});
+            if (acatidx > -1) {
+                this.allCats.splice(acatidx, 1);
+            }
+        });
+    }
+
+    public removeRandomCats(amount: number) {
+        this.catInfoSubject.subscribe(() => {
+            while (amount > 0) {
+                let idx = rnd(this.allCats.length);
+                this.allCats.splice(idx, 1);
+                amount--;
+            }
         });
     }
 
