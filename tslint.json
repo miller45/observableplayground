@@ -8,10 +8,6 @@
     "class-name": true,
     "curly": true,
     "forin": true,
-    "import-blacklist": [
-      true,
-      "rxjs"
-    ],
     "import-spacing": true,
     "indent": [
       true,
@@ -19,10 +15,7 @@
     ],
     "interface-over-type-literal": true,
     "label-position": true,
-    "max-line-length": [
-      true,
-      140
-    ],
+
     "member-access": false,
     "no-arg": true,
     "no-bitwise": true,

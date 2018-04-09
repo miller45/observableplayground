@@ -9,24 +9,29 @@ import {LivingroomComponent} from './livingroom/livingroom.component';
 import {CommonModule} from "@angular/common";
 import {HttpModule} from "@angular/http";
 import {HouseComponent} from "./house/house.component";
-import {DoginfoService, CatinfoService} from "./services";
-import {ToastModule, ToastOptions, ToastsManager} from "ng2-toastr";
+import {DoginfoService, CatinfoService, FodderService} from "./services";
+import {ToastModule} from "ng2-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {PantryComponent} from './pantry/pantry/pantry.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
         AppComponent,
         LivingroomComponent,
-        HouseComponent
+        HouseComponent,
+        PantryComponent
     ],
     imports: [
         ToastModule.forRoot(),
         CommonModule,
         BrowserAnimationsModule,
         BrowserModule,
-        HttpModule
+        HttpModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
-    providers: [CatinfoService, DoginfoService],
+    providers: [CatinfoService, DoginfoService, FodderService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

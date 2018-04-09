@@ -26,7 +26,7 @@ export class CatinfoService {
     constructor(private http: Http,private toastr: ToastsManager) {
         this.ngen=new NamesGenerator();
         this.catInfoSubject = Observable.create(observer => {
-            this.toastr.info("WebService", "Requested data from the webservice");
+            this.toastr.info("Requested data from the webservice", "CatinfoService");
             this.http.get('http://localhost:4001/api/catinfo').map((response) => {
                 return CatinfoService.processData(response["_body"]);
             }).subscribe((data: any) => {

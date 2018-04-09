@@ -2,8 +2,10 @@
     <h6>Living room component</h6>
     <button (click)="addCat()">Add Cat</button>
     <button (click)="removeCat()">Remove Cat</button>
-    <p>
-    <span *ngFor="let item of allCats" class="icofont icofont-animal-cat-alt-1 big"></span>
+
+    <div></div>
+    <span *ngFor="let item of allCats" class="icofont big">&#xe93d; </span>
+
     <h4>List of cats</h4>
     <ul>
         <li *ngFor="let cat of allCats">{{cat.name}}</li>

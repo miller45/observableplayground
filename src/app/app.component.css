@@ -1,0 +1,12 @@
+body,button {
+    font-family: Roboto, OpenSans,sans-serif;
+}
+.allplayboxes{
+    display:flex;
+    flex-flow:row;
+}
+
+.playbox {
+    max-width:400px;
+    flex: 1 0 400px;
+}

@@ -4,6 +4,17 @@ Access-Control-Allow-Origin: *
 
 {
   "Fodder": {
-     "Kinds": ["Dry Food", "Canned Food", "Water", "Cat Milk"]
+    "Kinds": [
+      "Dry Food",
+      "Canned Food",
+      "Cat Milk",
+      "Cow Milk"
+    ],
+    "Stock": {
+      "Dry Food": 33,
+      "Canned Food": 8,
+      "Cat Milk": 15,
+      "Cow Milk": 10
+    }
   }
 }
