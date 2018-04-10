@@ -1,6 +1,7 @@
 
 
 List of rxjs operators that return a "single" result of multiple inputs.
+puts results from multiples sources into multiple emits (but single results)
 
 
 List of rxjs operators that return a "multiple" results

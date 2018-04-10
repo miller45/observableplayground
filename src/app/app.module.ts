@@ -12,7 +12,7 @@ import {HouseComponent} from "./house/house.component";
 import {DoginfoService, CatinfoService, FodderService} from "./services";
 import {ToastModule} from "ng2-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {PantryComponent} from './pantry/pantry/pantry.component';
+import {PantryComponent} from './pantry/pantry.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({

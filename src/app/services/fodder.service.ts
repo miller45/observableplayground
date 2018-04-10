@@ -1,24 +1,19 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import {CatInfo, CatInfos} from "../models";
 import {Observable} from "rxjs/Observable";
 
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
-import {ReplaySubject} from "rxjs/ReplaySubject";
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/finally';
 
 import * as _ from 'lodash';
 import {Fodder} from "../models/fodder.model";
 import {FodderStockEntry} from "../models/fodder-stock.model";
-import {observable} from "rxjs/symbol/observable";
-import {merge} from 'rxjs/observable/merge';
-import {combineLatest} from 'rxjs/observable/combineLatest';
 import {of} from 'rxjs/observable/of';
-import {race} from 'rxjs/operators';
 import {concat} from 'rxjs/operators';
-import {delay} from 'rxjs/operators';
-import {pipe} from "rxjs/Rx";
+import {ToastsManager} from "ng2-toastr";
 
 
 let rnd = function (max: number) {
@@ -31,21 +26,15 @@ let rnd = function (max: number) {
 @Injectable()
 export class FodderService {
 
-    private fodderKindsSubject: ReplaySubject<Array<Fodder>>;
+    private fodderKindsObservable: Observable<Array<Fodder>>;
     private fodderStockObservable: Observable<Array<FodderStockEntry>>;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private toastMgr: ToastsManager) {
 
-        this.fodderKindsSubject = Observable.create(observer => {
+        this.fodderKindsObservable =
             this.http.get('http://localhost:4001/api/fodder').map((response) => {
                 return FodderService.processFodderResult(response["_body"]);
-            }).subscribe((data: any) => {
-                observer.next(data);
-                observer.complete();
-            }, (error) => {
-                console.log(error);
             });
-        }).shareReplay(1);
 
         // this.fodderStockSubject = Observable.create(observer => {
         //     this.http.get('http://localhost:4001/api/fodder').map((response) => {
@@ -57,15 +46,16 @@ export class FodderService {
         //         console.log(error);
         //     });
         // });
-        let apiObs = this.http.get('http://localhost:4001/api/fodder').map((response) => {
+        let slowObservable = this.http.get('http://localhost:4001/api/fodder').map((response) => {
             let res: Array<FodderStockEntry> = FodderService.processFodderStockResult(response["_body"]);
             //localStorage.setItem("playground.fodderStock",JSON.stringify(res) );
             return res;
-        });
-        this.fodderStockObservable = apiObs;
-        let testObs: Observable<Array<FodderStockEntry>> = of(<FodderStockEntry[]>JSON.parse(localStorage.getItem("playground.fodderStock"))).pipe(delay(5000));
-        this.fodderStockObservable = apiObs.pipe(concat(testObs));
-
+        }).delay(5000); //extra delay because local server is too fast
+        let fastObservable: Observable<Array<FodderStockEntry>> = of(<FodderStockEntry[]>JSON.parse(localStorage.getItem("playground.fodderStock")));
+        this.fodderStockObservable = fastObservable.pipe(concat(slowObservable));
+        // this.fodderStockObservable.finally(()=> {
+        //     this.toastMgr.info("Finnaly got all data","Finally completed");
+        // });
 
         // this.fodderStockObservable = combineLatest(apiObs,testObs).switchMap((as,ts)=> {
         //     return as;
@@ -73,11 +63,11 @@ export class FodderService {
 
     }
 
-    public getFooderKinds(): Observable<Array<Fodder>> {
-        return this.fodderKindsSubject;
+    public getFodderKinds(): Observable<Array<Fodder>> {
+        return this.fodderKindsObservable;
     }
 
-    public getFooderStock(): Observable<Array<FodderStockEntry>> {
+    public getFodderStockEntrys(): Observable<Array<FodderStockEntry>> {
         return this.fodderStockObservable;
     }
 
