@@ -3,4 +3,4 @@
  */
 
 export {CatInfo, CatInfos} from './catinfo.model';
-export {Dogevent, DogEventKind} from './dogevent.model';
+export {DogEvent, DogEventKind} from './dogevent.model';

@@ -1,0 +1,13 @@
+app-stickysubscriber {
+
+    border: 1px solid green;
+
+
+}
+app-stickysubscriber .format-cats span::after {
+    content:", "
+}
+
+app-stickysubscriber .format-cats span:last-child::after {
+    content:""
+}

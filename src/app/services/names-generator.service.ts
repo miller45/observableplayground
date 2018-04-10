@@ -3,7 +3,7 @@
  */
 import construct = Reflect.construct;
 import {Subject} from "rxjs/Subject";
-import {Dogevent} from "../models";
+import {DogEvent} from "../models";
 
 function getRandInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;

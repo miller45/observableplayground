@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {CatinfoService, DoginfoService} from "../services";
-import {CatInfos, Dogevent, DogEventKind} from "../models";
+import {CatInfos, DogEvent, DogEventKind} from "../models";
 import {ToastsManager} from "ng2-toastr";
 
 @Component({
@@ -22,7 +22,7 @@ export class LivingroomComponent implements OnInit {
         this.catInfoService.getCatInfos().subscribe((kitties) => {
             this.allCats = kitties;
         });
-        this.dogInfoService.dogEvents.subscribe((evt:Dogevent)=> {
+        this.dogInfoService.dogEvents.subscribe((evt:DogEvent)=> {
 
            switch(evt.kind) {
                case DogEventKind.DogBark:
@@ -50,6 +50,10 @@ export class LivingroomComponent implements OnInit {
     public removeCat() {
         this.catInfoService.removeRandomCats(1);
         this.counter--;
+    }
+
+    public renameCat() {
+        this.allCats[0].name=this.allCats[0].name+"X";
     }
 
 }

@@ -18,6 +18,6 @@ export class AppComponent {
   public isVisible = false;
 
   showComponents() {
-    this.isVisible = true;
+    this.isVisible = !this.isVisible;
   }
 }

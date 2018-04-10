@@ -1,6 +1,9 @@
 export class CatInfo {
-  public name: string;
-  public sleeping: boolean;
+
+    public uniqueId?: string;
+    public name: string;
+    public sleeping: boolean;
+    public hash?:string;
 }
 
 export declare type CatInfos = Array<CatInfo>;

@@ -1,7 +1,7 @@
 /**
  * @author RKlein@rosen-group.com
  */
-export class Dogevent {
+export class DogEvent {
     public kind: DogEventKind = DogEventKind.Unknown;
 }
 
