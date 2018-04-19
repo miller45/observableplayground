@@ -8,12 +8,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/finally';
 
-import * as _ from 'lodash';
-import {Fodder} from "../models/fodder.model";
 import {FodderStockEntry} from "../models/fodder-stock.model";
 import {of} from 'rxjs/observable/of';
 import {concat} from 'rxjs/operators';
 import {ToastsManager} from "ng2-toastr";
+import {FodderKind} from "../models/fodder-kind.model";
+import {FodderItem} from "../models/fodder-item.model";
 
 
 let rnd = function (max: number) {
@@ -26,16 +26,20 @@ let rnd = function (max: number) {
 @Injectable()
 export class FodderService {
 
-    private fodderKindsObservable: Observable<Array<Fodder>>;
+    private fodderKindsObservable: Observable<Array<FodderKind>>;
     private fodderStockObservable: Observable<Array<FodderStockEntry>>;
+    private fodderItemsObservable: Observable<Array<FodderItem>>;
 
     constructor(private http: Http, private toastMgr: ToastsManager) {
 
         this.fodderKindsObservable =
             this.http.get('http://localhost:4001/api/fodder').map((response) => {
-                return FodderService.processFodderResult(response["_body"]);
+                return FodderService.processFodderKindResult(response["_body"]);
             });
-
+        this.fodderItemsObservable =
+            this.http.get('http://localhost:4001/api/fodder').map((response) => {
+                return FodderService.processFodderItemResult(response["_body"]);
+            });
         // this.fodderStockSubject = Observable.create(observer => {
         //     this.http.get('http://localhost:4001/api/fodder').map((response) => {
         //         return FodderService.processFodderStockResult(response["_body"]);
@@ -48,7 +52,7 @@ export class FodderService {
         // });
         let slowObservable = this.http.get('http://localhost:4001/api/fodder').map((response) => {
             let res: Array<FodderStockEntry> = FodderService.processFodderStockResult(response["_body"]);
-            //localStorage.setItem("playground.fodderStock",JSON.stringify(res) );
+            localStorage.setItem("playground.fodderStock",JSON.stringify(res) );
             return res;
         }).delay(5000); //extra delay because local server is too fast
         let fastObservable: Observable<Array<FodderStockEntry>> = of(<FodderStockEntry[]>JSON.parse(localStorage.getItem("playground.fodderStock")));
@@ -63,7 +67,7 @@ export class FodderService {
 
     }
 
-    public getFodderKinds(): Observable<Array<Fodder>> {
+    public getFodderKinds(): Observable<Array<FodderKind>> {
         return this.fodderKindsObservable;
     }
 
@@ -71,13 +75,24 @@ export class FodderService {
         return this.fodderStockObservable;
     }
 
-    private static processFodderResult(responseBody: string): Array<Fodder> {
+    private static processFodderKindResult(responseBody: string): Array<FodderKind> {
         //FYI: json contains list of fodder kinds and also stock info
         let rawkinds = JSON.parse(responseBody).Fodder.Kinds;
-        let result: Array<Fodder> = [];
+        let result: Array<FodderKind> = [];
         let amount = rawkinds.length;
         for (let i = 0; i < amount; i++) {
-            result.push({kind: rawkinds[i]});
+            result.push(rawkinds[i]);
+        }
+        return result;
+    }
+
+    private static processFodderItemResult(responseBody: string): Array<FodderItem> {
+
+        let rawItems = JSON.parse(responseBody).Fodder.Items;
+        let result: Array<FodderItem> = [];
+        let amount = rawItems.length;
+        for (let i = 0; i < amount; i++) {
+            result.push(rawItems[i]);
         }
         return result;
     }
@@ -86,13 +101,10 @@ export class FodderService {
         //FYI: json contains list of fodder kinds and also stock info
         let rawstocks = JSON.parse(responseBody).Fodder.Stock;
         let result: Array<FodderStockEntry> = [];
-        _.forEach(rawstocks, (value: number, key: string) => {
-            result.push(
-                {
-                    kind: key,
-                    amount: value
-                });
+        rawstocks.forEach((st) => {
+            result.push(st);
         });
+
         return result;
     }
 }

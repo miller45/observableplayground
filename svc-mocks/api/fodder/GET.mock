@@ -5,16 +5,26 @@ Access-Control-Allow-Origin: *
 {
   "Fodder": {
     "Kinds": [
-      "Dry Food",
-      "Canned Food",
-      "Cat Milk",
-      "Cow Milk"
+      {"ID":1,"Name":"Dry Food"},
+      {"ID":2,"Name":"Canned Food"},
+      {"ID":3,"Name":"Milk"}
     ],
-    "Stock": {
-      "Dry Food": 33,
-      "Canned Food": 8,
-      "Cat Milk": 15,
-      "Cow Milk": 10
-    }
+    "Items": [
+      {"ID":1,"Name":"Cow milk","KindsREF":3},
+      {"ID":2,"Name":"Cat milk","KindsREF":3},
+      {"ID":3,"Name":"Taste of the Wild Dog Food","KindsREF":1},
+      {"ID":4,"Name":"Pedigrunge Roasted Chicken","KindsREF":1},
+      {"ID":5,"Name":"Chaffie Squishy Soft","KindsREF":2},
+      {"ID":6,"Name":"Whiskuss Cat Food Soft chunks","KindsREF":2}
+    ],
+    "Stock": [
+      {"ID":"S1","ItemREF":1,"Amount":3},
+      {"ID":"S2","ItemREF":2,"Amount":2},
+      {"ID":"S3","ItemREF":6,"Amount":42},
+      {"ID":"S4","ItemREF":3,"Amount":10},
+      {"ID":"S5","ItemREF":4,"Amount":7},
+      {"ID":"S6","ItemREF":5,"Amount":0}
+    ]
+
   }
 }

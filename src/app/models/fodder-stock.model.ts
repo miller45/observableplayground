@@ -1,6 +1,7 @@
 export class FodderStockEntry {
-    public kind: string;
-    public amount: number;
+    public ID: string;
+    public ItemREF: number;
+    public Amount: number;
 }
 
 
