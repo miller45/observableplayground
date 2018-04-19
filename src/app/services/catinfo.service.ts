@@ -16,6 +16,7 @@ import {ToastsManager} from "ng2-toastr";
 import {IdGeneratorService} from "./idgenerator.service";
 
 import * as SparkMD5 from 'spark-md5';
+import {Subject} from "rxjs/Subject";
 
 let rnd = function (max: number) {
     return Math.trunc(Math.random() * max);
@@ -87,6 +88,10 @@ export class CatinfoService {
                 amount--;
             }
         });
+    }
+
+    public getSubscriberCount():number {
+        return this.catInfoSubject.observers?this.catInfoSubject.observers.length:0;
     }
 
     private static processData(responseBody: string): CatInfos {

@@ -36,4 +36,8 @@ export class DoginfoService {
         }
         this.dogEvents.next(ndg);
     }
+
+    public getObserverCount() {
+        return this.dogEvents.observers.length;
+    }
 }

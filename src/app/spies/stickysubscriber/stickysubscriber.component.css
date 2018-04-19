@@ -1,13 +1,13 @@
-app-stickysubscriber {
+.sticky-subscriber {
 
     border: 1px solid green;
 
 
 }
-app-stickysubscriber .format-cats span::after {
+.sticky-subscriber .format-cats span::after {
     content:", "
 }
 
-app-stickysubscriber .format-cats span:last-child::after {
+.sticky-subscriber  .format-cats span:last-child::after {
     content:""
 }

@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {CatinfoService, DoginfoService} from "../services";
 import {CatInfos} from "../models";
+import {ToastsManager} from "ng2-toastr";
+import {Subscription} from "rxjs/Subscription";
 
 
 @Component({
@@ -12,8 +14,9 @@ import {CatInfos} from "../models";
 export class HouseComponent implements OnInit {
 
     public allCats: CatInfos;
+    private subscriptions: Array<Subscription> = [];
 
-    constructor(private catInfoService: CatinfoService, private dogInfoService: DoginfoService) {
+    constructor(private catInfoService: CatinfoService, private dogInfoService: DoginfoService, private toastr:ToastsManager) {
     }
 
     ngOnInit() {
@@ -26,12 +29,20 @@ export class HouseComponent implements OnInit {
         this.dogInfoService.makeRandomDogEvent();
     }
 
-    public createRange(max: number) {
-        let items: number[] = [];
-        for (let i = 0; i < max; i++) {
-            items.push(i);
-        }
-        return items;
+    public showSubscribers() {
+        let a=this.dogInfoService.getObserverCount();
+        let c=this.catInfoService.getSubscriberCount();
+        let msg=`Number of observers for dogs: ${a}\r\n`;
+        msg+=`Number of observers for cats ${c}`;
+        this.toastr.warning(msg,'Yo');
     }
+
+    // public createRange(max: number) {
+    //     let items: number[] = [];
+    //     for (let i = 0; i < max; i++) {
+    //         items.push(i);
+    //     }
+    //     return items;
+    // }
 
 }

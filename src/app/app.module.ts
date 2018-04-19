@@ -16,6 +16,7 @@ import {PantryComponent} from './pantry/pantry.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {StickySubscriberComponent} from './spies/stickysubscriber/stickysubscriber.component';
 import {IdGeneratorService} from "./services/idgenerator.service";
+import {StickySubscriber2Component} from "./spies/stickysubscriber/stickysubscriber2.component";
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import {IdGeneratorService} from "./services/idgenerator.service";
         LivingroomComponent,
         HouseComponent,
         PantryComponent,
-        StickySubscriberComponent
+        StickySubscriberComponent,
+        StickySubscriber2Component
     ],
     imports: [
         ToastModule.forRoot(),
