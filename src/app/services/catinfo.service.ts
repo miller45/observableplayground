@@ -90,7 +90,7 @@ export class CatinfoService {
         });
     }
 
-    public getSubscriberCount():number {
+    public getObserverCount():number {
         return this.catInfoSubject.observers?this.catInfoSubject.observers.length:0;
     }
 

@@ -31,7 +31,7 @@ export class HouseComponent implements OnInit {
 
     public showSubscribers() {
         let a=this.dogInfoService.getObserverCount();
-        let c=this.catInfoService.getSubscriberCount();
+        let c=this.catInfoService.getObserverCount();
         let msg=`Number of observers for dogs: ${a}\r\n`;
         msg+=`Number of observers for cats ${c}`;
         this.toastr.warning(msg,'Yo');
