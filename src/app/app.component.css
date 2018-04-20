@@ -10,3 +10,7 @@ body,button {
     max-width:400px;
     flex: 1 0 400px;
 }
+
+table th {
+    text-align: left;
+}

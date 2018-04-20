@@ -30,7 +30,7 @@ export class AppComponent {
     public boxClick(event: Event, index: number) {
         if (! (event.srcElement && event.srcElement.tagName === "BUTTON")) {
             //only hide box if not a button click
-            console.log(event.srcElement.tagName);
+            //console.log(event.srcElement.tagName);
             this.visibilities[index] = false;
         }
 

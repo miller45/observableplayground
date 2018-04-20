@@ -1,10 +1,30 @@
 <div class="pantry">
-    pantry works!
-    <div>
-        <textarea cols="50" rows="10" [(ngModel)]="fodderKindsDump"></textarea>
-    </div>
-    <div>
-        <textarea cols="50" rows="20" [(ngModel)]="fodderStockEntrysDump"></textarea>
-    </div>
 
+    <table>
+        <thead>
+            <th>Kind</th>
+            <th>Name</th>
+            <th>Amount</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of fodderDisplayObs | async">
+            <td>{{item.KindName}}</td>
+            <td>{{item.ItemName}}</td>
+            <td>{{item.Amount}}</td>
+        </tr>
+
+        </tbody>
+    </table>
+    <section aria-label="raw data" *ngIf="isDebugDump">
+        <div>
+            <textarea cols="50" rows="10" [(ngModel)]="fodderKindsDump"></textarea>
+        </div>
+        <div>
+            <textarea cols="50" rows="20" [(ngModel)]="fodderStockEntrysDump"></textarea>
+        </div>
+
+        <div>
+            <textarea cols="50" rows="20" [(ngModel)]="fodderItemsDump"></textarea>
+        </div>
+    </section>
 </div>

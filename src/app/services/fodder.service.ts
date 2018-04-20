@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/finally';
 
+
 import {FodderStockEntry} from "../models/fodder-stock.model";
 import {of} from 'rxjs/observable/of';
 import {concat} from 'rxjs/operators';
@@ -40,6 +41,20 @@ export class FodderService {
             this.http.get('http://localhost:4001/api/fodder').map((response) => {
                 return FodderService.processFodderItemResult(response["_body"]);
             });
+
+        let slowObservable = this.http.get('http://localhost:4001/api/fodder').map((response) => {
+            let res: Array<FodderStockEntry> = FodderService.processFodderStockResult(response["_body"]);
+            return res;
+        }).delay(5000).do((items) => {
+            //console.log("items stored in local storage");
+            //localStorage.setItem("playground.fodderStock", JSON.stringify(items.slice(0,2)));
+        }); //extra delay because local server is too fast
+        let fastObservable: Observable<Array<FodderStockEntry>> = of(<FodderStockEntry[]>JSON.parse(localStorage.getItem("playground.fodderStock"))).do(()=> {
+            console.log("read items from localstorage fast");
+        });
+        this.fodderStockObservable = fastObservable.pipe(concat(slowObservable));
+
+        //example with observable create
         // this.fodderStockSubject = Observable.create(observer => {
         //     this.http.get('http://localhost:4001/api/fodder').map((response) => {
         //         return FodderService.processFodderStockResult(response["_body"]);
@@ -50,13 +65,8 @@ export class FodderService {
         //         console.log(error);
         //     });
         // });
-        let slowObservable = this.http.get('http://localhost:4001/api/fodder').map((response) => {
-            let res: Array<FodderStockEntry> = FodderService.processFodderStockResult(response["_body"]);
-            localStorage.setItem("playground.fodderStock",JSON.stringify(res) );
-            return res;
-        }).delay(5000); //extra delay because local server is too fast
-        let fastObservable: Observable<Array<FodderStockEntry>> = of(<FodderStockEntry[]>JSON.parse(localStorage.getItem("playground.fodderStock")));
-        this.fodderStockObservable = fastObservable.pipe(concat(slowObservable));
+
+
         // this.fodderStockObservable.finally(()=> {
         //     this.toastMgr.info("Finnaly got all data","Finally completed");
         // });
@@ -67,12 +77,17 @@ export class FodderService {
 
     }
 
+
     public getFodderKinds(): Observable<Array<FodderKind>> {
         return this.fodderKindsObservable;
     }
 
     public getFodderStockEntrys(): Observable<Array<FodderStockEntry>> {
         return this.fodderStockObservable;
+    }
+
+    public getFodderItems(): Observable<Array<FodderItem>> {
+        return this.fodderItemsObservable;
     }
 
     private static processFodderKindResult(responseBody: string): Array<FodderKind> {
