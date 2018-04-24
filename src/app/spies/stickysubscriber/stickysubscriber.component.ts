@@ -14,7 +14,7 @@ export class StickySubscriberComponent implements OnInit, OnDestroy {
 
     public allCats: CatInfos = [];
     private subscriptions: Array<Subscription> = [];
-
+    private doNotUnsubscribe = false;
 
     constructor(private toastr: ToastsManager, private catInfoService: CatinfoService, private dogInfoService: DoginfoService) {
     }
@@ -24,19 +24,26 @@ export class StickySubscriberComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.dogInfoService.dogEvents.subscribe((event:DogEvent)=> {
+        this.subscriptions.push(this.dogInfoService.dogEvents.subscribe((event: DogEvent) => {
             this.toastr.info("Getting Dog Events", "Still");
-        });
-        this.catInfoService.getCatInfos().subscribe(
+        }));
+        this.subscriptions.push(this.catInfoService.getCatInfos().subscribe(
             (cats) => {
                 this.toastr.info("i got new cats", "Incoming" + Date.now().toString());
                 this.allCats = cats;
                 console.log("got cats");
             }
-        );
+        ));
     }
 
     ngOnDestroy() {
+        if(!this.doNotUnsubscribe) {
+            this.subscriptions.forEach((sub) => {
+                if (sub) {
+                    sub.unsubscribe();
+                }
+            });
+        }
         console.log(` ${this.constructor.name} has been destroyed`);
     }
 

@@ -44,20 +44,37 @@ export class PantryComponent implements OnInit, OnDestroy {
                 }));
         }
 
-        let joined = oForkJoin(this.fodderService.getFodderKinds(), this.fodderService.getFodderItems(), this.fodderService.getFodderStockEntrys());
-        this.fodderDisplayObs = joined.map(([kinds, items, entrys]) => {
-            console.log("forkjoing");
-            let res: Array<any> = [];
-            entrys.forEach((e) => {
-                let csi = new FodderStockDisplayEntry(e);
-                let drefItem: FodderItem = _.find(items, {"ID": e.ItemREF});
-                csi.ItemName = drefItem.Name;
-                let drefKind: FodderKind = _.find(kinds, {"ID": drefItem.KindsREF});
-                csi.KindName = drefKind.Name;
-                res.push(csi);
-            });
-            return res;
-        });
+        let joined = oForkJoin(
+            this.fodderService.getFodderKinds(),
+            this.fodderService.getFodderItems(),
+            this.fodderService.getFodderStockEntrys(),
+            (kinds, items, entrys) => {
+                let res: Array<any> = [];
+                entrys.forEach((e) => {
+                    let csi = new FodderStockDisplayEntry(e);
+                    let drefItem: FodderItem = _.find(items, {"ID": e.ItemREF});
+                    csi.ItemName = drefItem.Name;
+                    let drefKind: FodderKind = _.find(kinds, {"ID": drefItem.KindsREF});
+                    csi.KindName = drefKind.Name;
+                    res.push(csi);
+                });
+                return res;
+            }
+        );
+        this.fodderDisplayObs = joined;
+        // this.fodderDisplayObs = joined.map(([kinds, items, entrys]) => {
+        //     console.log("forkjoing");
+        //     let res: Array<any> = [];
+        //     entrys.forEach((e) => {
+        //         let csi = new FodderStockDisplayEntry(e);
+        //         let drefItem: FodderItem = _.find(items, {"ID": e.ItemREF});
+        //         csi.ItemName = drefItem.Name;
+        //         let drefKind: FodderKind = _.find(kinds, {"ID": drefItem.KindsREF});
+        //         csi.KindName = drefKind.Name;
+        //         res.push(csi);
+        //     });
+        //     return res;
+        // });
 
 
         //     .subscribe((endlich) => {

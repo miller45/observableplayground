@@ -16,6 +16,7 @@ export class StickySubscriber2Component implements OnInit, OnDestroy {
     public allCatsObs: Observable<CatInfos>;
 
     private subscriptions: Array<Subscription> = [];
+    private doNotUnsubscribe = false;
 
 
     constructor(private toastr: ToastsManager, private catInfoService: CatinfoService, private dogInfoService: DoginfoService) {
@@ -36,6 +37,13 @@ export class StickySubscriber2Component implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        if(!this.doNotUnsubscribe) {
+            this.subscriptions.forEach((sub) => {
+                if (sub) {
+                    sub.unsubscribe();
+                }
+            });
+        }
         console.log(` ${this.constructor.name} has been destroyed`);
     }
 
