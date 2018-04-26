@@ -1,30 +1,50 @@
 <div class="pantry">
+    <article>
+        <section aria-label="merged data">
+            <!--<table>-->
+                <!--<thead>-->
+                <!--<th>Name</th>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr *ngFor="let item of fodderDisplayObs | async">-->
+                    <!--<td>{{item.KindName}}</td>-->
+                    <!--<td>{{item.ItemName}}</td>-->
+                    <!--<td>{{item.Amount}}</td>-->
+                <!--</tr>-->
 
-    <table>
-        <thead>
-            <th>Kind</th>
-            <th>Name</th>
-            <th>Amount</th>
-        </thead>
-        <tbody>
-        <tr *ngFor="let item of fodderDisplayObs | async">
-            <td>{{item.KindName}}</td>
-            <td>{{item.ItemName}}</td>
-            <td>{{item.Amount}}</td>
-        </tr>
+                <!--</tbody>-->
+            <!--</table>-->
+        </section>
+    </article>
+    <article>
+        <section aria-label="simple data">
+            <table>
+                <thead>
+                    <th>Kind</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of fodderDisplayObs | async">
+                    <td>{{item.KindName}}</td>
+                    <td>{{item.ItemName}}</td>
+                    <td>{{item.Amount}}</td>
+                </tr>
 
-        </tbody>
-    </table>
-    <section aria-label="raw data" *ngIf="isDebugDump">
-        <div>
-            <textarea cols="50" rows="10" [(ngModel)]="fodderKindsDump"></textarea>
-        </div>
-        <div>
-            <textarea cols="50" rows="20" [(ngModel)]="fodderStockEntrysDump"></textarea>
-        </div>
+                </tbody>
+            </table>
+        </section>
+        <section aria-label="raw data" *ngIf="isDebugDump">
+            <div>
+                <textarea cols="50" rows="10" [(ngModel)]="fodderKindsDump"></textarea>
+            </div>
+            <div>
+                <textarea cols="50" rows="20" [(ngModel)]="fodderStockEntrysDump"></textarea>
+            </div>
 
-        <div>
-            <textarea cols="50" rows="20" [(ngModel)]="fodderItemsDump"></textarea>
-        </div>
-    </section>
+            <div>
+                <textarea cols="50" rows="20" [(ngModel)]="fodderItemsDump"></textarea>
+            </div>
+        </section>
+    </article>
 </div>

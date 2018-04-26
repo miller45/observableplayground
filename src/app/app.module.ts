@@ -17,6 +17,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {StickySubscriberComponent} from './spies/stickysubscriber/stickysubscriber.component';
 import {IdGeneratorService} from "./services/idgenerator.service";
 import {StickySubscriber2Component} from "./spies/stickysubscriber/stickysubscriber2.component";
+import { ClickAsObservableDirective } from "./directives/click-as-observable.directive";
+import { LibModule } from "./lib.module";
 
 @NgModule({
     declarations: [
@@ -28,6 +30,7 @@ import {StickySubscriber2Component} from "./spies/stickysubscriber/stickysubscri
         StickySubscriber2Component
     ],
     imports: [
+        LibModule,
         ToastModule.forRoot(),
         CommonModule,
         BrowserAnimationsModule,

@@ -49,7 +49,7 @@ export class FodderService {
             //console.log("items stored in local storage");
             //localStorage.setItem("playground.fodderStock", JSON.stringify(items.slice(0,2)));
         }); //extra delay because local server is too fast
-        let fastObservable: Observable<Array<FodderStockEntry>> = of(<FodderStockEntry[]>JSON.parse(localStorage.getItem("playground.fodderStock"))).do(()=> {
+        let fastObservable: Observable<Array<FodderStockEntry>> = of(<FodderStockEntry[]>JSON.parse(localStorage.getItem("playground.fodderStock"))).do(() => {
             console.log("read items from localstorage fast");
         });
         this.fodderStockObservable = fastObservable.pipe(concat(slowObservable));
@@ -88,6 +88,18 @@ export class FodderService {
 
     public getFodderItems(): Observable<Array<FodderItem>> {
         return this.fodderItemsObservable;
+    }
+
+    public getFodderItem(itemId: number): Observable<FodderItem> {
+
+        // return this.fodderItemsObservable.first<FodderItem>((fodderItem)=> {
+        //     return fodderItem.ID===itemId;
+        // });
+        return this.fodderItemsObservable.map((allFodder) => {
+            return allFodder.find((f) => {
+                return f.ID === itemId;
+            });
+        });
     }
 
     private static processFodderKindResult(responseBody: string): Array<FodderKind> {

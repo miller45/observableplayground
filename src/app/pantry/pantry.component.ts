@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {FodderService} from "../services";
 import {Subscription} from "rxjs/Subscription";
-
-import {forkJoin as oForkJoin} from 'rxjs/observable/forkJoin';
+//import 'rxjs/operator/forkjoin';
 import * as _ from 'lodash';
 import {FodderStockDisplayEntry} from "../models/fodder-stock-display.model";
 import {FodderItem} from "../models/fodder-item.model";
 import {FodderKind} from "../models/fodder-kind.model";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs/Rx";
 
 @Component({
     selector: 'app-pantry',
@@ -23,6 +22,7 @@ export class PantryComponent implements OnInit, OnDestroy {
     private subscriptions: Array<Subscription> = [];
 
     public fodderDisplayObs: Observable<any> = null;
+    public combinedObs: Observable<any> = null;
 
     constructor(private fodderService: FodderService) {
     }
@@ -44,7 +44,7 @@ export class PantryComponent implements OnInit, OnDestroy {
                 }));
         }
 
-        let joined = oForkJoin(
+        let joined = Observable.forkJoin(
             this.fodderService.getFodderKinds(),
             this.fodderService.getFodderItems(),
             this.fodderService.getFodderStockEntrys(),
@@ -62,37 +62,8 @@ export class PantryComponent implements OnInit, OnDestroy {
             }
         );
         this.fodderDisplayObs = joined;
-        // this.fodderDisplayObs = joined.map(([kinds, items, entrys]) => {
-        //     console.log("forkjoing");
-        //     let res: Array<any> = [];
-        //     entrys.forEach((e) => {
-        //         let csi = new FodderStockDisplayEntry(e);
-        //         let drefItem: FodderItem = _.find(items, {"ID": e.ItemREF});
-        //         csi.ItemName = drefItem.Name;
-        //         let drefKind: FodderKind = _.find(kinds, {"ID": drefItem.KindsREF});
-        //         csi.KindName = drefKind.Name;
-        //         res.push(csi);
-        //     });
-        //     return res;
-        // });
 
-
-        //     .subscribe((endlich) => {
-        //     console.log(endlich);
-        // });
-
-        // let combined = obsCombineLatest(this.fodderService.getFodderKinds(), this.fodderService.getFodderItems(), this.fodderService.getFodderStockEntrys,(kinds,items,stocke)=> {
-        //     return {
-        //       allKinds:kinds,
-        //       allItems:items,
-        //       allStockE:stocke
-        //     };
-        // });
-        // combined.subscribe((allc)=> {
-        //     console.log(JSON.stringify(allc,null,3));
-        // });
-
-
+       
     }
 
     ngOnDestroy() {

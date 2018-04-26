@@ -1,5 +1,5 @@
-import {Component, ViewContainerRef, ViewEncapsulation} from '@angular/core';
-import {ToastsManager} from "ng2-toastr";
+import { Component, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { ToastsManager } from "ng2-toastr";
 
 
 @Component({
@@ -10,16 +10,14 @@ import {ToastsManager} from "ng2-toastr";
 })
 export class AppComponent {
 
+    public title = 'observable playground app';
+    public visibilities: Array<Boolean> = [];
+
     constructor(vcRef: ViewContainerRef,
                 public toastr: ToastsManager) {
         this.toastr.setRootViewContainerRef(vcRef);
         this.visibilities = [false, false, false, false, false];
     }
-
-    public title = 'observable playground app';
-    public isVisible = false;
-
-    public visibilities: Array<Boolean> = [];
 
     public showComponents() {
         for (let i = 0; i < this.visibilities.length; i++) {
@@ -28,11 +26,10 @@ export class AppComponent {
     }
 
     public boxClick(event: Event, index: number) {
-        if (! (event.srcElement && event.srcElement.tagName === "BUTTON")) {
+        if (!(event.srcElement && event.srcElement.tagName === "BUTTON")) {
             //only hide box if not a button click
             //console.log(event.srcElement.tagName);
             this.visibilities[index] = false;
         }
-
     }
 }
