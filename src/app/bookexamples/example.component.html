@@ -1,0 +1,13 @@
+<div class="example">
+    <h6>Example component</h6>
+    <form name="customerfeedback">
+        <p>We value your feedback:</p>
+        <textarea name="textfield" [(ngModel)]="complaintText" cols="50" rows="10" #textfield="ngModel" required> </textarea>
+        <div>
+            <button (click)="submitFeedback()" [disabled]="textfield.invalid">Submit</button>
+        </div>
+
+    </form>
+
+
+</div>

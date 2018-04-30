@@ -33,10 +33,6 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
     "no-misused-new": true,
     "no-non-null-assertion": true,
     "no-shadowed-variable": true,
@@ -50,7 +46,6 @@
     "object-literal-sort-keys": false,
     "one-line": [
       true,
-      "check-open-brace",
       "check-catch",
       "check-else",
       "check-whitespace"

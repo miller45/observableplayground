@@ -89,6 +89,12 @@ export class FodderService {
     public getFodderItems(): Observable<Array<FodderItem>> {
         return this.fodderItemsObservable;
     }
+    /** instead of returning huge array return them one by one*/
+    public getFodderItemsOneByOne():Observable<FodderItem> {
+        return this.getFodderItems().switchMap((allItems)=> {
+            return Observable.from(allItems);
+        });
+    }
 
     public getFodderItem(itemId: number): Observable<FodderItem> {
 

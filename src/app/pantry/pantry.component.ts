@@ -63,7 +63,12 @@ export class PantryComponent implements OnInit, OnDestroy {
         );
         this.fodderDisplayObs = joined;
 
-       
+
+        //test one by one
+        this.fodderService.getFodderItemsOneByOne().filter((fi)=>fi.Name.startsWith("C")).subscribe((fodderItem)=> {
+            console.log(fodderItem.Name);
+        });
+
     }
 
     ngOnDestroy() {

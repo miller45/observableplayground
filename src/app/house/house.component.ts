@@ -4,7 +4,7 @@ import { CatInfos } from "../models";
 import { ToastsManager } from "ng2-toastr";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
-import { AfterViewChecked } from "@angular/core/src/metadata/lifecycle_hooks";
+
 import { Subject } from "rxjs/Subject";
 
 
@@ -52,9 +52,6 @@ export class HouseComponent implements OnInit, AfterViewInit  {
             console.log("subdoggy"+e);
         });
     }
-    // ngAfterViewChecked() {
-    //     console.log(`x `+this.dogClickedObs);
-    // }
 
 
     public triggerDogEvent() {
@@ -74,11 +71,5 @@ export class HouseComponent implements OnInit, AfterViewInit  {
             return 3.145999999999999999;
         });
     }
-
-
-    public zClick(event:Event) {
-        console.log(event);
-    }
-
 
 }
