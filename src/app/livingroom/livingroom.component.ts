@@ -19,6 +19,7 @@ export class LivingroomComponent implements OnInit, OnDestroy {
     private counter = 0;
 
     constructor(private catInfoService: CatinfoService, private dogInfoService: DoginfoService, private toastr: ToastsManager) {
+        console.log("New living room component created");
     }
 
     ngOnInit() {
@@ -29,15 +30,15 @@ export class LivingroomComponent implements OnInit, OnDestroy {
 
             switch (evt.kind) {
                 case DogEventKind.DogBark:
-                    this.toastr.warning("wuuh", "Dog Barks");
+                    this.toastr.warning("Dog Barks", "LivingRoom");
                     this.catInfoService.removeRandomCats(1);
                     break;
                 case DogEventKind.DogLeaves:
-                    this.toastr.success("wuuh", "Dog Leaves");
+                    this.toastr.success("Dog Leaves", "LivingRoom");
                     this.catInfoService.addRandomCats(2);
                     break;
                 case DogEventKind.DogArrives:
-                    this.toastr.error("wuuh", "Dog Arrives");
+                    this.toastr.error("Dog Arrives", "LivingRoom");
                     this.catInfoService.removeRandomCats(2);
                     break;
             }
