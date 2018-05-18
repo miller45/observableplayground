@@ -26,10 +26,12 @@ export class AppComponent {
     }
 
     public boxClick(event: Event, index: number) {
-        if (!(event.srcElement && event.srcElement.tagName === "BUTTON")) {
-            //only hide box if not a button click
-            //console.log(event.srcElement.tagName);
-            this.visibilities[index] = false;
+        if(event instanceof MouseEvent) {
+            if(event.ctrlKey) {
+                // only hide the box if ctrl key pressed
+                //console.log(event.srcElement.tagName);
+                this.visibilities[index] = false;
+            }
         }
     }
 }
