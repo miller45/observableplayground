@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {CatinfoService, DoginfoService} from "../services";
-import {CatInfos, DogEvent, DogEventKind} from "../models";
-import {ToastsManager} from "ng2-toastr";
-import {Subscription} from "rxjs/Subscription";
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { CatinfoService, DoginfoService, GlobalOptionsService } from "../services";
+import { CatInfos, DogEvent, DogEventKind } from "../models";
+import { ToastsManager } from "ng2-toastr";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: 'app-livingroom',
@@ -18,8 +18,11 @@ export class LivingroomComponent implements OnInit, OnDestroy {
 
     private counter = 0;
 
-    constructor(private catInfoService: CatinfoService, private dogInfoService: DoginfoService, private toastr: ToastsManager) {
+    private randomInstanceID = 0;
+
+    constructor(private catInfoService: CatinfoService, private dogInfoService: DoginfoService, private toastr: ToastsManager, private goptions: GlobalOptionsService) {
         console.log("New living room component created");
+        this.randomInstanceID = Math.random() * 10000000;
     }
 
     ngOnInit() {
@@ -30,15 +33,15 @@ export class LivingroomComponent implements OnInit, OnDestroy {
 
             switch (evt.kind) {
                 case DogEventKind.DogBark:
-                    this.toastr.warning("Dog Barks", "LivingRoom");
+                    this.toastr.warning("Dog Barks", "LivingRoom" + this.getExtraText());
                     this.catInfoService.removeRandomCats(1);
                     break;
                 case DogEventKind.DogLeaves:
-                    this.toastr.success("Dog Leaves", "LivingRoom");
+                    this.toastr.success("Dog Leaves", "LivingRoom" + this.getExtraText());
                     this.catInfoService.addRandomCats(2);
                     break;
                 case DogEventKind.DogArrives:
-                    this.toastr.error("Dog Arrives", "LivingRoom");
+                    this.toastr.error("Dog Arrives", "LivingRoom" + +this.getExtraText());
                     this.catInfoService.removeRandomCats(2);
                     break;
             }
@@ -65,6 +68,13 @@ export class LivingroomComponent implements OnInit, OnDestroy {
 
     public renameCat() {
         this.allCats[0].name = this.allCats[0].name + "X";
+    }
+
+    private getExtraText() {
+        if (this.goptions.instanceIdsInToasts) {
+            return this.randomInstanceID.toString();
+        }
+        return "";
     }
 
 }

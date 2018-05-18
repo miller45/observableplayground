@@ -1,5 +1,6 @@
 import { Component, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { ToastsManager } from "ng2-toastr";
+import { GlobalOptionsService } from "./services";
 
 
 @Component({
@@ -14,7 +15,7 @@ export class AppComponent {
     public visibilities: Array<Boolean> = [];
 
     constructor(vcRef: ViewContainerRef,
-                public toastr: ToastsManager) {
+                public toastr: ToastsManager, private goptions: GlobalOptionsService) {
         this.toastr.setRootViewContainerRef(vcRef);
         this.visibilities = [false, false, false, false, false];
     }
@@ -26,12 +27,20 @@ export class AppComponent {
     }
 
     public boxClick(event: Event, index: number) {
-        if(event instanceof MouseEvent) {
-            if(event.ctrlKey) {
+        if (event instanceof MouseEvent) {
+            if (event.ctrlKey) {
                 // only hide the box if ctrl key pressed
                 //console.log(event.srcElement.tagName);
                 this.visibilities[index] = false;
             }
         }
+    }
+
+    public toggleSilenceSpies() {
+        this.goptions.silenceSpies = !this.goptions.silenceSpies;
+    }
+
+    public toggleInstanceIdsInToasts() {
+        this.goptions.instanceIdsInToasts = !this.goptions.instanceIdsInToasts;
     }
 }

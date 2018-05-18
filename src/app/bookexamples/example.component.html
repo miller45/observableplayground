@@ -5,6 +5,7 @@
         <textarea name="textfield" [(ngModel)]="complaintText" cols="50" rows="10" #textfield="ngModel" required> </textarea>
         <div>
             <button (click)="submitFeedback()" [disabled]="textfield.invalid">Submit</button>
+            <button (click)="showSignature()" >Show Email Signature</button>
         </div>
 
     </form>

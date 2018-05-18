@@ -1,8 +1,11 @@
 <div class="bath-room">
-    <h6>House component</h6>
+    <h3>House component</h3>
     <p>
         Amount of cats : {{allCats?.length}}
-
+    </p>
+    <p>
+        Amount of dogs : {{dogCount}}
+        <span *ngIf="dogCount<0">Yeah negative amount of dogs...must be a math joke</span>
     </p>
     <button #dogButton>Trigger Random Dog Event</button>
     <button (click)="showSubscribers()">Show subscribers</button>

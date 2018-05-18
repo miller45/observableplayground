@@ -1,8 +1,10 @@
 /**
  * @author RKlein@rosen-group.com
  */
-import { CustomerService } from "../services";
+import { CustomerService, EmailService } from "../services";
 import { Component, ViewEncapsulation } from "@angular/core";
+import { CatInfo } from "../models";
+import { Observable } from "rxjs/Observable";
 
 @Component({
     selector: 'app-example',
@@ -12,14 +14,22 @@ import { Component, ViewEncapsulation } from "@angular/core";
 export class ExampleComponent {
     public complaintText: string = "";
 
-    constructor(private customerService: CustomerService) {
+
+
+    constructor(private customerService: CustomerService, private emailService: EmailService) {
 
     }
 
     public submitFeedback() {
-        if(this.complaintText) {
+        if (this.complaintText) {
             this.customerService.saveCustomerComplaint("This new thing is crap");
         }
 
+    }
+
+    public showSignature() {
+        this.emailService.getEmailSignature().subscribe((text) => {
+            this.complaintText = text;
+        });
     }
 }

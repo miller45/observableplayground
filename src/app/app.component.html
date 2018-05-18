@@ -7,6 +7,8 @@
 
 </div>
 <button (click)="showComponents()">show components</button>
+<button (click)="toggleSilenceSpies()">Toggle Silence spies (Sticksubscribes)</button>
+<button (click)="toggleInstanceIdsInToasts()">Toggle Show instance ids in toasts</button>
 <div class="allplayboxes">
     <app-house *ngIf="visibilities[0]" class="playbox" (click)="boxClick($event,0)"></app-house>
 
@@ -14,6 +16,7 @@
     <app-pantry *ngIf="visibilities[2]" class="playbox" (click)="boxClick($event,2)"></app-pantry>
     <app-stickysubscriber *ngIf="visibilities[3]" class="playbox" (click)="boxClick($event,3)"></app-stickysubscriber>
     <app-stickysubscriber2 *ngIf="visibilities[4]" class="playbox" (click)="boxClick($event,4)"></app-stickysubscriber2>
+
 
     <!--<app-example></app-example>-->
 </div>

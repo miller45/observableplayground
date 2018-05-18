@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ToastsManager} from "ng2-toastr";
-import {CatinfoService, DoginfoService} from "../../services";
+import { CatinfoService, DoginfoService, GlobalOptionsService } from "../../services";
 import {CatInfo, CatInfos} from "../../models";
 import {Observable} from "rxjs/Observable";
 import {Subscription} from "rxjs/Subscription";
@@ -19,7 +19,7 @@ export class StickySubscriber2Component implements OnInit, OnDestroy {
     private doNotUnsubscribe = false;
 
 
-    constructor(private toastr: ToastsManager, private catInfoService: CatinfoService, private dogInfoService: DoginfoService) {
+    constructor(private toastr: ToastsManager, private catInfoService: CatinfoService, private dogInfoService: DoginfoService, private goptions:GlobalOptionsService) {
         this.allCatsObs = this.catInfoService.getCatInfos();
         this.subscriptions.push(this.allCatsObs.subscribe());
     }
@@ -44,7 +44,10 @@ export class StickySubscriber2Component implements OnInit, OnDestroy {
                 }
             });
         }
-        console.log(` ${this.constructor.name} has been destroyed`);
+        if(!this.goptions.silenceSpies) {
+            console.log(` ${this.constructor.name} has been destroyed`);
+        }
+
     }
 
 

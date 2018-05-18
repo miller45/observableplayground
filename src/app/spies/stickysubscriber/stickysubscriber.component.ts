@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ToastsManager} from "ng2-toastr";
-import {CatinfoService, DoginfoService} from "../../services";
+import { CatinfoService, DoginfoService, GlobalOptionsService } from "../../services";
 import {CatInfo, CatInfos, DogEvent} from "../../models";
 import {Subscription} from "rxjs/Subscription";
 
@@ -16,7 +16,7 @@ export class StickySubscriberComponent implements OnInit, OnDestroy {
     private subscriptions: Array<Subscription> = [];
     private doNotUnsubscribe = false;
 
-    constructor(private toastr: ToastsManager, private catInfoService: CatinfoService, private dogInfoService: DoginfoService) {
+    constructor(private toastr: ToastsManager, private catInfoService: CatinfoService, private dogInfoService: DoginfoService, private goptions:GlobalOptionsService) {
     }
 
     public trackByFunction(index: number, item: CatInfo): any {
@@ -25,13 +25,15 @@ export class StickySubscriberComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscriptions.push(this.dogInfoService.dogEvents.subscribe((event: DogEvent) => {
-            this.toastr.info("Getting Dog Events", "Still");
+            this.toastr.info("Still Getting Dog Events", "StickySubscriber");
         }));
         this.subscriptions.push(this.catInfoService.getCatInfos().subscribe(
             (cats) => {
-                this.toastr.info("i got new cats", "Incoming" + Date.now().toString());
+                if(!this.goptions.silenceSpies) {
+                    this.toastr.info("i got new cats", "StickySubscriber " + Date.now().toString());
+                    console.log("got cats");
+                }
                 this.allCats = cats;
-                console.log("got cats");
             }
         ));
     }
@@ -44,7 +46,9 @@ export class StickySubscriberComponent implements OnInit, OnDestroy {
                 }
             });
         }
-        console.log(` ${this.constructor.name} has been destroyed`);
+        if(!this.goptions.silenceSpies) {
+            console.log(` ${this.constructor.name} has been destroyed`);
+        }
     }
 
 

@@ -35,6 +35,10 @@ export class DoginfoService {
                 break;
         }
         this.dogEvents.next(ndg);
+        // following code there to test out if the event subscribtion "ends" when complete() is called
+        // if(ndg.kind===DogEventKind.DogLeaves) {
+        //     this.dogEvents.complete();
+        // }
     }
 
     public getObserverCount() {

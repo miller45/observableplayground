@@ -1,22 +1,23 @@
-import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
-import {CatInfo, CatInfos} from "../models";
-import {Observable} from "rxjs/Observable";
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import { CatEvent, CatInfo, CatInfos } from "../models";
+import { Observable } from "rxjs/Observable";
 
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
-import {ReplaySubject} from "rxjs/ReplaySubject";
+import { ReplaySubject } from "rxjs/ReplaySubject";
 
 import * as _ from 'lodash';
-import {NamesGenerator} from "./names-generator.service";
-import {ToastsManager} from "ng2-toastr";
-import {IdGeneratorService} from "./idgenerator.service";
+import { NamesGenerator } from "./names-generator.service";
+import { ToastsManager } from "ng2-toastr";
+import { IdGeneratorService } from "./idgenerator.service";
 
 import * as SparkMD5 from 'spark-md5';
-import {Subject} from "rxjs/Subject";
+import { Subject } from "rxjs/Subject";
+import { Person } from "../models/person";
 
 let rnd = function (max: number) {
     return Math.trunc(Math.random() * max);
@@ -25,11 +26,15 @@ let rnd = function (max: number) {
 @Injectable()
 export class CatinfoService {
 
+    /** not yet used*/
+    public catEvents: Subject<CatEvent>;
+
     private catInfoSubject: ReplaySubject<CatInfos>;
     private allCats: CatInfos;
     private ngen: NamesGenerator;
 
     constructor(private http: Http, private idGenerator: IdGeneratorService, private toastr: ToastsManager) {
+        this.catEvents = new Subject<CatEvent>();
         this.ngen = new NamesGenerator();
         this.catInfoSubject = Observable.create(observer => {
             this.toastr.info("Requested data from the webservice", "CatinfoService");
@@ -90,8 +95,13 @@ export class CatinfoService {
         });
     }
 
-    public getObserverCount():number {
-        return this.catInfoSubject.observers?this.catInfoSubject.observers.length:0;
+    public getObserverCount(): number {
+        return this.catInfoSubject.observers ? this.catInfoSubject.observers.length : 0;
+    }
+
+    /** used for observable cookbook code only*/
+    public seekOwner(cat:CatInfo):Observable<Person> {
+        return Observable.of(new Person());
     }
 
     private static processData(responseBody: string): CatInfos {
