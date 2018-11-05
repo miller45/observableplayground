@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CatinfoService, DoginfoService, GlobalOptionsService } from "../services";
-import { CatInfos, DogEvent, DogEventKind } from "../models";
+import { Address, CatInfo, CatInfos, DogEvent, DogEventKind } from "../models";
 import { ToastsManager } from "ng2-toastr";
 import { Subscription } from "rxjs/Subscription";
+import { Person } from "../models/person";
+import { Observable } from "rxjs/Observable";
+import { PersonService } from "../services/person.service";
 
 @Component({
     selector: 'app-livingroom',
@@ -20,9 +23,26 @@ export class LivingroomComponent implements OnInit, OnDestroy {
 
     private randomInstanceID = 0;
 
-    constructor(private catInfoService: CatinfoService, private dogInfoService: DoginfoService, private toastr: ToastsManager, private goptions: GlobalOptionsService) {
+    constructor(private catInfoService: CatinfoService, private dogInfoService: DoginfoService, private toastr: ToastsManager, private goptions: GlobalOptionsService, private personService: PersonService) {
         console.log("New living room component created");
         this.randomInstanceID = Math.random() * 10000000;
+    }
+
+    public onCatClicked(strayCat: CatInfo) {
+        this.resolveCatsOwnerAddress(strayCat).subscribe((address: Address) => {
+            this.showPopup("The cats owner lives at ", address.street);
+        });
+    }
+
+    private resolveCatsOwnerAddress(strayCat: CatInfo): Observable<Address> {
+        return this.catInfoService.seekOwner(strayCat).switchMap(
+            (person: Person) => {
+                return this.personService.getPersonAddress(person);
+            });
+    }
+
+    private showPopup(caption: string, message: string) {
+        this.toastr.info(message,caption);
     }
 
     ngOnInit() {
@@ -76,5 +96,6 @@ export class LivingroomComponent implements OnInit, OnDestroy {
         }
         return "";
     }
+
 
 }

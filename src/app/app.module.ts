@@ -21,6 +21,7 @@ import { LibModule } from "./lib.module";
 import { EmailService } from "./services";
 import { ExampleComponent } from "./bookexamples/example.component";
 import { PersonService } from "./services/person.service";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { PersonService } from "./services/person.service";
         BrowserModule,
         HttpModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientModule
     ],
     providers: [CatinfoService, DoginfoService, FodderService, IdGeneratorService, CustomerService, EmailService, PersonService, GlobalOptionsService],
     bootstrap: [AppComponent]

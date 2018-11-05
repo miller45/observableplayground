@@ -101,7 +101,7 @@ export class CatinfoService {
 
     /** used for observable cookbook code only*/
     public seekOwner(cat:CatInfo):Observable<Person> {
-        return Observable.of(new Person());
+        return Observable.of(new Person()).delay(1000);
     }
 
     private static processData(responseBody: string): CatInfos {

@@ -2,9 +2,13 @@
  * @author RKlein@rosen-group.com
  */
 import { CustomerService, EmailService } from "../services";
-import { Component, ViewEncapsulation } from "@angular/core";
-import { CatInfo } from "../models";
-import { Observable } from "rxjs/Observable";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { WeatherInfo } from "../models";
+
+
+import { of } from "rxjs/observable/of";
+import { filter, map, reduce, switchMap } from "rxjs/operators";
+import { pipe } from "rxjs/Rx";
 
 @Component({
     selector: 'app-example',
@@ -14,6 +18,7 @@ import { Observable } from "rxjs/Observable";
 export class ExampleComponent {
     public complaintText: string = "";
 
+    public weatherInfo: WeatherInfo;
 
 
     constructor(private customerService: CustomerService, private emailService: EmailService) {
@@ -32,4 +37,18 @@ export class ExampleComponent {
             this.complaintText = text;
         });
     }
+
+    private doit() {
+        const squareOdd = of(1, 2, 3, 4, 5)
+            .pipe(
+                filter(n => n % 2 !== 0),
+                map(n => n * n)
+            );
+
+// Subscribe to get values
+        squareOdd.subscribe(x => console.log(x));
+    }
+
 }
+
+

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Address, CatEvent, CatInfo, CatInfos } from "../models";
+import { Address } from "../models";
 import { Observable } from "rxjs/Observable";
 
 import 'rxjs/add/operator/share';
@@ -8,16 +8,12 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/publishReplay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
-import { ReplaySubject } from "rxjs/ReplaySubject";
-
-import * as _ from 'lodash';
-import { NamesGenerator } from "./names-generator.service";
-import { ToastsManager } from "ng2-toastr";
-import { IdGeneratorService } from "./idgenerator.service";
-
-import * as SparkMD5 from 'spark-md5';
-import { Subject } from "rxjs/Subject";
 import { Person } from "../models/person";
+import { NamesGenerator } from "./names-generator.service";
+
+let rnd = function (max: number) {
+    return Math.trunc(Math.random() * max);
+};
 
 /**only used for cookbook example */
 @Injectable()
@@ -28,8 +24,12 @@ export class PersonService {
 
     }
 
-    public getPersonAddress(person:Person):Observable<Address> {
-        return Observable.of(new Address());
+    public getPersonAddress(person: Person): Observable<Address> {
+        let ngen = new NamesGenerator();
+        let nadr = new Address();
+
+        nadr.street = ngen.simple() + " Street";
+        return Observable.of(nadr);
     }
 
 

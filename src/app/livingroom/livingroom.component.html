@@ -9,7 +9,7 @@
 
     <h4>List of cats</h4>
     <ul>
-        <li *ngFor="let cat of allCats">{{cat.name}}</li>
+        <li *ngFor="let cat of allCats" (click)="onCatClicked(cat)">{{cat.name}}</li>
     </ul>
     Total Number: {{allCats?.length}}
 
